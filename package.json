@@ -1,0 +1,19 @@
+{
+  "name": "ex_multiparty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "debug": "nodemon --inspect index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.17.1",
+    "multiparty": "4.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.19.1"
+  }
+}
