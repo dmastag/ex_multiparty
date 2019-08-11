@@ -27,14 +27,13 @@ app.post("/submit", function(req, res, next){
         }
 
         fstream = createWriteStream(path);
-        const document = {};
 
-        document.type = part.headers["content-type"]
-        document.name = part.filename;
-        document.size = part.byteCount;
-        document.path = part.filename;
-
-        documents.push(document);
+        documents.push({
+            type:part.headers["content-type"],
+            name:part.filename,
+            size:part.byteCount,
+            path:part.filename,
+        });
         part.pipe(fstream);
 
     });
