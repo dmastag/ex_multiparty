@@ -26,7 +26,7 @@ app.post("/submit", function(req, res, next){
             return res.status(415).json({message: "Filetype not allowed"})
         }
 
-        fstream = createWriteStream(path);
+        fstream = createWriteStream(part.filename);
 
         documents.push({
             type:part.headers["content-type"],
