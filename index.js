@@ -10,8 +10,6 @@ app.post("/submit", function(req, res, next){
     var documents = [];
     var fstream = null;
 
-    var hasError;
-
     // populate fields
     form.on("field", function (name, value) {
         documents.push({name: name, value: value});
@@ -45,13 +43,14 @@ app.post("/submit", function(req, res, next){
     });
 
     form.on("close", function (data) {
-        if(!hasError) {
+            
+        if(fstream) {
             fstream.end();
             fstream = null;
+        }   
     
-            res.send({files: documents})
-            res.end();
-        }
+        res.send({files: documents})
+        res.end();
     });
 
     form.parse(req);
