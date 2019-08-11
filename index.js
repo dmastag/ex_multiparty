@@ -1,6 +1,6 @@
 const app = require("express")();
 const multiparty = require("multiparty");
-const fs = require('fs')
+const {createWriteStream} = require('fs')
 
 app.post("/submit", function(req, res, next){
 
@@ -22,7 +22,7 @@ app.post("/submit", function(req, res, next){
 
         var path = part.filename;
 
-        fstream = fs.createWriteStream(path);
+        fstream = createWriteStream(path);
         const document = {};
 
         document.type = part.headers["content-type"]
