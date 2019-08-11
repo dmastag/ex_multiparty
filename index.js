@@ -5,9 +5,9 @@ const allowExt = ["jpg", "jpeg", "png"];
 
 app.post("/submit", function(req, res, next){
 
-    var form = new multiparty.Form();
-
-    var documents = [];
+    const form = new multiparty.Form();
+    const documents = [];
+    
     var fstream = null;
 
     // populate fields
@@ -27,15 +27,13 @@ app.post("/submit", function(req, res, next){
             return res.status(415).json({message: "Filetype not allowed"})
         }
 
-        var path = part.filename;
-
         fstream = createWriteStream(path);
         const document = {};
 
         document.type = part.headers["content-type"]
         document.name = part.filename;
         document.size = part.byteCount;
-        document.path = path;
+        document.path = part.filename;
 
         documents.push(document);
         part.pipe(fstream);
