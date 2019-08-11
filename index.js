@@ -1,6 +1,7 @@
 const app = require("express")();
 const multiparty = require("multiparty");
 const {createWriteStream} = require('fs')
+const allowExt = ["jpg", "jpeg", "png"];
 
 app.post("/submit", function(req, res, next){
 
@@ -8,6 +9,8 @@ app.post("/submit", function(req, res, next){
 
     var documents = [];
     var fstream = null;
+
+    var hasError;
 
     // populate fields
     form.on("field", function (name, value) {
@@ -18,6 +21,12 @@ app.post("/submit", function(req, res, next){
 
         if (!part.filename) {
             return;
+        }
+
+        if (allowExt.indexOf(part.filename.split('.').pop()) === -1) {
+            hasError = true;
+            req.unpipe(form)
+            return res.status(415).json({message: "Filetype not allowed"})
         }
 
         var path = part.filename;
@@ -36,19 +45,21 @@ app.post("/submit", function(req, res, next){
     });
 
     form.on("close", function (data) {
-
-        fstream.end();
-        fstream = null;
-
-        res.send({files: documents})
-        res.end();
-
+        if(!hasError) {
+            fstream.end();
+            fstream = null;
+    
+            res.send({files: documents})
+            res.end();
+        }
     });
 
     form.parse(req);
 
     form.on("error", function(error){
         console.log(error);
+        req.unpipe(form)
+        res.status(status || 400).json('something went wrong')
     })
     
 });
