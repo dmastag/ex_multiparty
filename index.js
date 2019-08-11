@@ -22,7 +22,6 @@ app.post("/submit", function(req, res, next){
         }
 
         if (allowExt.indexOf(part.filename.split('.').pop()) === -1) {
-            hasError = true;
             req.unpipe(form)
             return res.status(415).json({message: "Filetype not allowed"})
         }
