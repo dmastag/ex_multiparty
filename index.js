@@ -20,7 +20,7 @@ app.post("/submit", function(req, res, next){
     form.on("part", function (part) {
 
         if (!part.filename) {
-            part.resume();
+            return part.resume();
         }
 
         if (allowExt.indexOf(part.filename.split('.').pop()) === -1) {
