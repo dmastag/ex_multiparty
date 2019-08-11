@@ -11,7 +11,7 @@ app.post("/submit", function(req, res, next){
 
     // populate fields
     form.on("field", function (name, value) {
-        document[name] = value ;
+        documents.push({name: name, value: value});
     });
 
     form.on("part", function (part) {
@@ -56,6 +56,7 @@ app.post("/submit", function(req, res, next){
 app.get("/", function(httpRequest, httpResponse, next){ 
     httpResponse.send(`
             <form action='http://localhost:8080/submit' method='post' enctype='multipart/form-data'>
+                <input type='text' name='title'><br>
                 <input type='file' name='thumbnail' />
                 <input type='file' name='test' />
                 <input type='submit' value='Submit' />
